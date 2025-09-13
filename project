@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus AI Assistant</title>
+  <style>
+    body{margin:0;font-family:sans-serif;background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);}
+    .container{display:flex;height:100vh;background:#fff;border-radius:15px;overflow:hidden}
+    .sidebar{width:220px;background:#667eea;color:#fff;padding:20px}
+    .sidebar h1{font-size:18px;margin:10px 0}
+    .nav-item{padding:8px;border-radius:8px;cursor:pointer;margin:4px 0}
+    .nav-item.active,.nav-item:hover{background:rgba(255,255,255,.2)}
+    .main{flex:1;display:flex;flex-direction:column}
+    .header{padding:12px 20px;border-bottom:1px solid #eee}
+    .panel{flex:1;display:none;flex-direction:column;padding:15px;overflow:auto}
+    .panel.active{display:flex}
+    .messages{flex:1;overflow:auto}
+    .message{margin:8px 0;max-width:70%;padding:8px 12px;border-radius:12px}
+    .user{background:#667eea;color:#fff;margin-left:auto}
+    .bot{background:#f1f1f1}
+    .input{display:flex;margin-top:10px}
+    .input input{flex:1;border:none;padding:10px;border-radius:20px;background:#f9f9f9}
+    .input button{margin-left:8px;padding:10px 14px;border:none;border-radius:50%;background:#667eea;color:#fff}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h1>Campus AI</h1>
+      <div class="nav-item active" data-sec="chat">💬 Chat</div>
+      <div class="nav-item" data-sec="academic">📅 Academic</div>
+      <div class="nav-item" data-sec="dining">🍽 Dining</div>
+    </div>
+    <div class="main">
+      <div class="header"><b>Welcome, Student!</b></div>
+      <div id="chat" class="panel active">
+        <div class="messages" id="msgs"><div class="bot message">Hello 👋 Ask me anything!</div></div>
+        <div class="input">
+          <input id="inp" placeholder="Type a message...">
+          <button id="send">➤</button>
+        </div>
+      </div>
+      <div id="academic" class="panel"><h2>Academic Schedule</h2><p>Classes start Aug 26, 2024</p></div>
+      <div id="dining" class="panel"><h2>Dining Hours</h2><p>Breakfast 7–10am, Lunch 11–3, Dinner 5–9</p></div>
+    </div>
+  </div>
+
+  <script>
+    const msgs=document.getElementById("msgs"),inp=document.getElementById("inp");
+    document.getElementById("send").onclick=()=>{
+      if(inp.value){
+        msgs.innerHTML+=<div class="user message">${inp.value}</div>;
+        setTimeout(()=>msgs.innerHTML+=<div class="bot message">Reply to: ${inp.value}</div>,600);
+        inp.value='';
+      }
+    };
+    document.querySelectorAll(".nav-item").forEach(item=>item.onclick=()=>{
+      document.querySelectorAll(".nav-item").forEach(i=>i.classList.remove("active"));
+      item.classList.add("active");
+      document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+      document.getElementById(item.dataset.sec).classList.add("active");
+    });
+  </script>
+</body>
+</html>
